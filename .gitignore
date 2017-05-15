@@ -19,5 +19,6 @@ build/
 .project
 .settings/
 node/node_modules/
+restapi/node_modules/
 repo/
 conf/
