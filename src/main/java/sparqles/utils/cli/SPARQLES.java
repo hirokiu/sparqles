@@ -46,7 +46,9 @@ public class SPARQLES extends CLIObject{
 	protected void addOptions(Options opts) {
 		opts.addOption(ARGUMENTS.OPTION_PROP_FILE);
 		opts.addOption(ARGUMENTS.OPTION_INIT);
+		opts.addOption(ARGUMENTS.OPTION_INIT_FILE);
 		opts.addOption(ARGUMENTS.OPTION_UPDATE_EPS);
+		opts.addOption(ARGUMENTS.OPTION_UPDATE_EPS_FILE);
 		opts.addOption(ARGUMENTS.OPTION_START);
 		opts.addOption(ARGUMENTS.OPTION_STATS);
 		opts.addOption(ARGUMENTS.OPTION_RECOMPUTE);
@@ -65,6 +67,14 @@ public class SPARQLES extends CLIObject{
 		if( CLIObject.hasOption(cmd, ARGUMENTS.PARAM_FLAG_INIT)){
 			//check the endpoint list
 			Collection<Endpoint> eps = DatahubAccess.checkEndpointList();
+			dbm.initEndpointCollection();
+			dbm.setup();
+			dbm.insert(eps);			 
+		}
+		//reinitialise from endpoint list file 
+		if( CLIObject.hasOption(cmd, ARGUMENTS.PARAM_FLAG_INIT_FILE)){
+			//check the endpoint list
+			Collection<Endpoint> eps = DatahubAccess.checkEndpointListFile();
 			dbm.initEndpointCollection();
 			dbm.setup();
 			dbm.insert(eps);			 

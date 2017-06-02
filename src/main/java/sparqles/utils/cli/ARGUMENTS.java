@@ -34,7 +34,9 @@ public class ARGUMENTS {
 	public static final String [] PARAM_PROP_FILE = 	createParam("p","prop");
 	public static final String [] PARAM_FLAG_DEBUG = 	createParam("d","verbose");
 	public static final String [] PARAM_FLAG_INIT = 	createParam("i","init");
+	public static final String [] PARAM_FLAG_INIT_FILE = 	createParam("if","initfile");
 	public static final String[] PARAM_FLAG_UPDATE_EPS = createParam("u","update");
+	public static final String[] PARAM_FLAG_UPDATE_EPS_FILE = createParam("uf","updatefile");
 	public static final String [] PARAM_FLAG_START = 	createParam("s","start");
 	public static final String [] PARAM_FLAG_RECOMPUTE = createParam("r","recompute");
 	public static final String [] PARAM_FLAG_RESCHEDULE = createParam("rs","reschedule");

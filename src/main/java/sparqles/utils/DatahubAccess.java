@@ -12,6 +12,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import java.io.File;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -39,6 +44,7 @@ import sparqles.core.CONSTANTS;
 import sparqles.avro.Dataset;
 import sparqles.avro.Endpoint;
 import sparqles.core.EndpointFactory;
+import sparqles.core.SPARQLESProperties;
 
 //http://datahub.io/api/2/search/resource?format=api/sparql&all_fields=1&limit=1000
 
@@ -189,5 +195,73 @@ public class DatahubAccess {
 			log.warn("[EXEC] "+ep,e);
 		} 
 		return ep;
+	}
+
+
+	/*
+	 * Local Endpoint List
+	 */
+	public static Collection<Endpoint> checkEndpointListFile(){
+		Map<String, Endpoint> results = new HashMap<String, Endpoint>();
+		try {
+			String endpointListFile = SPARQLESProperties.getENDPOINT_LIST();
+			FileInputStream fs = new FileInputStream(endpointListFile);
+			BufferedReader br = new BufferedReader(new InputStreamReader(fs));
+			StringBuilder sb = new StringBuilder();
+			String line;
+			while ((line = br.readLine()) != null) {
+				sb.append(line);
+			}
+			br.close();
+			
+			JsonFactory factory = new JsonFactory();
+			ObjectMapper mapper = new ObjectMapper(factory);
+			JsonNode rootNode = mapper.readTree(sb.toString());  
+
+			JsonNode res = rootNode.get("result");
+			res = res.get("results");
+			log.info("We found {} datasets",res.size());
+			Iterator<JsonNode> iter = res.getElements();
+			int c=1;
+			
+			
+			Map<String,Set<String>> map = new HashMap<String, Set<String>>();
+			while(iter.hasNext()){
+				JsonNode node = iter.next();
+				String endpointURL = node.findPath("url").getTextValue().trim();
+				String datasetId = node.findPath("package_id").getTextValue().trim();
+				
+				Set<String> s = map.get(endpointURL);
+				if(s==null){
+					s= new HashSet<String>();
+					map.put(endpointURL, s);
+				}
+				s.add(datasetId);
+			}
+			for(Entry<String,Set<String>> ent: map.entrySet()){
+				String endpointURL = ent.getKey(); 
+
+				if(endpointURL.length()==0) continue;
+				
+				Endpoint ep = results.get(endpointURL);
+				if(ep == null){
+					try {
+						ep = EndpointFactory.newEndpoint(new URI(endpointURL));
+						List<Dataset> l = new ArrayList<Dataset>();
+						ep.setDatasets(l);
+						results.put(endpointURL, ep);
+					} catch (URISyntaxException e) {
+						log.warn("URISyntaxException:{}",e.getMessage());
+					}
+				}
+				log.info("[GET] [{}] {}",c++,ep);
+			}
+		} catch (Exception e2) {
+			log.warn("[EXEC] {}",e2);
+			e2.printStackTrace();
+		} 
+		log.info("Found {} endpoints",results.size());
+		
+		return results.values();
 	}
 }
