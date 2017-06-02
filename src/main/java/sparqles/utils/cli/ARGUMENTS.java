@@ -51,6 +51,8 @@ public class ARGUMENTS {
 			PARAM_FLAG_DEBUG[SHORT_ARG],PARAM_FLAG_DEBUG[LONG_ARG],false);
 	public static final Option OPTION_INIT = createOption("flag",0,"init datahub list",
 			PARAM_FLAG_INIT[SHORT_ARG],PARAM_FLAG_INIT[LONG_ARG],false);
+	public static final Option OPTION_INIT_FILE = createOption("flag",0,"init endpoint list from file",
+			PARAM_FLAG_INIT_FILE[SHORT_ARG],PARAM_FLAG_INIT_FILE[LONG_ARG],false);
 	public static final Option OPTION_START = createOption("flag",0,"start the service",
 			PARAM_FLAG_START[SHORT_ARG],PARAM_FLAG_START[LONG_ARG],false);
 	public static final Option OPTION_RECOMPUTE  = createOption("flag",0,"recompute the analytics",
@@ -67,6 +69,8 @@ public class ARGUMENTS {
 	
 	public static final Option OPTION_UPDATE_EPS= createOption("flag",0,"update datahub list",
 			PARAM_FLAG_UPDATE_EPS[SHORT_ARG],PARAM_FLAG_UPDATE_EPS[LONG_ARG],false);
+	public static final Option OPTION_UPDATE_EPS_FILE= createOption("flag",0,"update endpoint list from file",
+			PARAM_FLAG_UPDATE_EPS_FILE[SHORT_ARG],PARAM_FLAG_UPDATE_EPS_FILE[LONG_ARG],false);
 	
 	
 	public static final Option OPTION_STATS = createOption("flag",0,"mongodb stats",

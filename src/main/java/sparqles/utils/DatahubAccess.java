@@ -218,8 +218,8 @@ public class DatahubAccess {
 			ObjectMapper mapper = new ObjectMapper(factory);
 			JsonNode rootNode = mapper.readTree(sb.toString());  
 
-			JsonNode res = rootNode.get("result");
-			res = res.get("results");
+			JsonNode res = rootNode.get("results");
+			//res = res.get("results");
 			log.info("We found {} datasets",res.size());
 			Iterator<JsonNode> iter = res.getElements();
 			int c=1;

@@ -1,0 +1,13 @@
+{
+"count": 2,
+"results": [
+{
+"url": "http://ja.dbpedia.org/sparql",
+"package_id": "0009bd01-6955-4e4f-be27-4159f3587d94"
+},
+{
+"url": "http://lod.dev.alchembright.com/sparql",
+"package_id": "006fad21-6664-4be5-ba45-bf7296d55e59"
+}
+]
+}
